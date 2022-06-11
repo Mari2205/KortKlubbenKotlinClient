@@ -20,7 +20,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginStart="20dp"
-                android:src="@drawable/whist_cardgame"/>
+                android:src="@drawable/whist_cardgame" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -29,20 +29,20 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/textView_gameName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView_gameName"
                     android:text="Whist game"
                     android:textColor="@color/black"
                     android:textSize="26sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/textView_gameDiscription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView_gameDiscription"
                     android:layout_marginTop="5dp"
-                    android:text="Test: card game"/>
+                    android:text="Test: card game" />
 
             </LinearLayout>
 

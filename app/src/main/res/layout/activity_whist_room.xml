@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,28 +8,96 @@
 
 
     <ImageView
-        android:id="@+id/imageView_cardPlayed"
-        android:layout_width="130dp"
-        android:layout_height="160dp"
-        android:layout_marginTop="124dp"
-        android:src="@drawable/red_cardback"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/imageView_table"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginBottom="28dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_height="match_parent"
+        android:rotation="270"
+        android:src="@drawable/card_table" />
 
-    </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/ll_cardPlayed"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="horizontal" />
+
+    <LinearLayout
+        android:id="@+id/ll_cards"
+        android:layout_width="60dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="5dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView_card1"
+            android:layout_width="60dp"
+            android:layout_height="70dp"
+            android:src="@drawable/ic_ace_of_diamonds"/>
+
+        <ImageView
+            android:id="@+id/imageView_card2"
+            android:layout_width="60dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_2_of_diamonds"/>
+
+        <ImageView
+            android:id="@+id/imageView_card3"
+            android:layout_width="60dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_3_of_diamonds"/>
+
+        <ImageView
+            android:id="@+id/imageView_card4"
+            android:layout_width="60dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_4_of_diamonds"/>
+
+        <ImageView
+            android:id="@+id/imageView_card5"
+            android:layout_width="60dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_5_of_diamonds"/>
+
+        <ImageView
+            android:id="@+id/imageView_card6"
+            android:layout_width="60dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_6_of_diamonds"/>
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+    <!--    <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/recylerView_cards"
+    android:layout_width="60dp"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:listitem="@layout/playingcards" />-->
+
+
+<!--    <ListView-->
+<!--        android:id="@+id/listview_cards"-->
+<!--        android:layout_width="60dp"-->
+<!--        android:layout_height="match_parent"-->
+<!--        tools:listitem="@layout/playingcards" />-->
+
 
     <!--    <LinearLayout-->
 <!--        android:id="@+id/linearL_cardHolder"-->
@@ -55,4 +123,4 @@
 <!--    </LinearLayout>-->
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
