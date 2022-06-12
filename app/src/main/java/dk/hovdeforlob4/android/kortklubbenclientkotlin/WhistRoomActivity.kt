@@ -30,6 +30,7 @@ class WhistRoomActivity : AppCompatActivity() {
     lateinit var hubConnection: HubConnection
     private val hashmapIds:HashMap<Int, Int> = HashMap<Int, Int>()
 
+    //TODO: delect cards apapter if not used
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWhistRoomBinding.inflate(layoutInflater)
