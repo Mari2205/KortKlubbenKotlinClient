@@ -14,7 +14,12 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.view.contains
 import androidx.core.view.get
+import androidx.core.view.iterator
+import com.microsoft.signalr.HubConnection
+import com.microsoft.signalr.HubConnectionBuilder
+import com.microsoft.signalr.HubConnectionState
 import dk.hovdeforlob4.android.kortklubbenclientkotlin.databinding.ActivityWhistRoomBinding
+import java.sql.DriverManager
 
 class WhistRoomActivity : AppCompatActivity() {
 
@@ -22,6 +27,7 @@ class WhistRoomActivity : AppCompatActivity() {
     private lateinit var playingCardsArrLst: ArrayList<PlayingCard>
     private lateinit var llPlayedCards : LinearLayout
     private lateinit var llCards : LinearLayout
+    lateinit var hubConnection: HubConnection
     private val hashmapIds:HashMap<Int, Int> = HashMap<Int, Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,19 +37,19 @@ class WhistRoomActivity : AppCompatActivity() {
 
 
         val playingCards = arrayOf(
-            PlayingCard(R.drawable.ic_ace_of_diamonds, R.drawable.ic_ace_of_diamonds),
-            PlayingCard(0, R.drawable.ic_2_of_diamonds),
-            PlayingCard(0, R.drawable.ic_3_of_diamonds),
-            PlayingCard(0, R.drawable.ic_4_of_diamonds),
-            PlayingCard(0, R.drawable.ic_5_of_diamonds),
-            PlayingCard(0, R.drawable.ic_6_of_diamonds),
-            PlayingCard(0, R.drawable.ic_7_of_diamonds),
-            PlayingCard(0, R.drawable.ic_8_of_diamonds),
-            PlayingCard(0, R.drawable.ic_9_of_diamonds),
-            PlayingCard(R.drawable.ic_10_of_diamonds, R.drawable.ic_10_of_diamonds),
-            PlayingCard(0, R.drawable.ic_jack_of_diamonds),
-            PlayingCard(0, R.drawable.ic_queen_of_diamonds),
-            PlayingCard(0, R.drawable.ic_king_of_diamonds)
+            PlayingCard("ace of diamonds",      R.drawable.ic_ace_of_diamonds),
+            PlayingCard("2 of diamonds",        R.drawable.ic_2_of_diamonds),
+            PlayingCard("3 of diamonds",        R.drawable.ic_3_of_diamonds),
+            PlayingCard("4 of diamonds",        R.drawable.ic_4_of_diamonds),
+            PlayingCard("5 of diamonds",        R.drawable.ic_5_of_diamonds),
+            PlayingCard("6 of diamonds",        R.drawable.ic_6_of_diamonds),
+            PlayingCard("7 of diamonds",        R.drawable.ic_7_of_diamonds),
+            PlayingCard("8 of diamonds",        R.drawable.ic_8_of_diamonds),
+            PlayingCard("9 of diamonds",        R.drawable.ic_9_of_diamonds),
+            PlayingCard("10 of diamonds",       R.drawable.ic_10_of_diamonds),
+            PlayingCard("jack of diamonds",     R.drawable.ic_jack_of_diamonds),
+            PlayingCard("queen of diamonds",    R.drawable.ic_queen_of_diamonds),
+            PlayingCard("king of diamonds",     R.drawable.ic_king_of_diamonds)
         )
 
         playingCardsArrLst = ArrayList()
@@ -79,6 +85,14 @@ class WhistRoomActivity : AppCompatActivity() {
         imageViewCard4.setOnLongClickListener(imageViewSetup)
         imageViewCard5.setOnLongClickListener(imageViewSetup)
         imageViewCard6.setOnLongClickListener(imageViewSetup)
+
+
+
+
+
+        hubConnection = HubConnectionBuilder.create("http://10.0.2.2:5038/cardhub").build()
+        hubConnection.start()
+
 
 //        imageViewCard1.setOnLongClickListener {
 //            val clipText = "this is our clipdata text"
@@ -184,40 +198,32 @@ class WhistRoomActivity : AppCompatActivity() {
 
     private fun GetPlayedCard(){
 
-        val t = llPlayedCards.context
-        val tt:Resources = t.resources
+//        val gl = llPlayedCards[0].id
+//        val hash = hashmapIds // key: imageview id | value: card id
+//        val ha = hashmapIds.keys
 
-        val hhh = tt.getResourcePackageName(R.drawable.ic_ace_of_diamonds)
-        val f = llPlayedCards
+//        for(key in ha){
+//            val testter = hash[key]
+//            val f =""
+//        }
 
-        val g: ImageView = llPlayedCards.getChildAt(0) as ImageView
-        val gg = g.context
-        val ggg = g.id
-
-        if(R.id.imageView_card1 == g.id)
-        {
-            val t = ""
+        for (imageview in llPlayedCards){
+            for (item in hashmapIds){
+                if (item.key == imageview.id){
+                    for (card in playingCardsArrLst){
+                        if (item.value == card.imageId){
+                            val name =  card.cardName
+                            val temp = ""
+                            BoradcastCard(name)
+                        }
+                    }
+                }
+            }
         }
-        val gggg = gg.resources
 
-
-//        val draw:Drawable = g.drawable
-//
-////        val file:Int = R.drawable.ic_ace_of_diamonds
-//
-//
-//
-        val gggggg = g.toString()
-        val h = gggggg.replaceBefore("imageView", "")
-        val hh = h.replace("}", "")
-//
-        val gl = llPlayedCards[0].id
-        val hash = hashmapIds
-
-
+//        val lst = playingCardsArrLst[0].imageId
 
         val temp = ""
-
     }
 
 
@@ -232,17 +238,39 @@ class WhistRoomActivity : AppCompatActivity() {
 
     private fun GiveCards(cards:ArrayList<PlayingCard>){
         val imageViewCounts = llCards.childCount
-        val lst:HashMap<Int, Int> = HashMap<Int, Int>()
+//        val lst:HashMap<Int, Int> = HashMap<Int, Int>()
 
         for (i in 0..imageViewCounts -1){
             val randomNo = (0..cards.size-1).random()
-            val ffffffefwfef = cards[0]
+//            val ffffffefwfef = cards[0]
             val cardId = cards[randomNo].imageId
-            llCards[i].setBackgroundResource(cardId)
-            val fffgi = llCards[0].id
+            val imageview = llCards[i]
+//            llCards[i].setBackgroundResource(cardId)
+////            val fffgi = llCards[0].id
+//
+//            hashmapIds[llCards[i].id] = cardId
 
-            hashmapIds[llCards[i].id] = cardId
+            imageview.setBackgroundResource(cardId)
+            hashmapIds[imageview.id] = cardId
+
         }
         val t =""
+    }
+
+    private fun BoradcastCard(cardName: String){
+        try {
+
+            val f = hubConnection.connectionState
+            hubConnection.send("SendCard", "AC", cardName)
+
+
+//            val status = hubConnection.connectionState
+
+            if (hubConnection.connectionState == HubConnectionState.CONNECTED) {
+                hubConnection.send("SendCard", "Android Client", cardName)
+            }
+        } catch (ex: Exception) {
+            DriverManager.println("ex")
+        }
     }
 }
