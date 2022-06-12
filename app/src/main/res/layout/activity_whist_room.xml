@@ -35,42 +35,42 @@
             android:id="@+id/imageView_card1"
             android:layout_width="60dp"
             android:layout_height="70dp"
-            android:src="@drawable/ic_ace_of_diamonds"/>
+            android:background="@drawable/ic_ace_of_diamonds"/>
 
         <ImageView
             android:id="@+id/imageView_card2"
             android:layout_width="60dp"
             android:layout_height="70dp"
             android:layout_marginTop="5dp"
-            android:src="@drawable/ic_2_of_diamonds"/>
+            android:background="@drawable/ic_2_of_diamonds"/>
 
         <ImageView
             android:id="@+id/imageView_card3"
             android:layout_width="60dp"
             android:layout_height="70dp"
             android:layout_marginTop="5dp"
-            android:src="@drawable/ic_3_of_diamonds"/>
+            android:background="@drawable/ic_3_of_diamonds"/>
 
         <ImageView
             android:id="@+id/imageView_card4"
             android:layout_width="60dp"
             android:layout_height="70dp"
             android:layout_marginTop="5dp"
-            android:src="@drawable/ic_4_of_diamonds"/>
+            android:background="@drawable/ic_4_of_diamonds"/>
 
         <ImageView
             android:id="@+id/imageView_card5"
             android:layout_width="60dp"
             android:layout_height="70dp"
             android:layout_marginTop="5dp"
-            android:src="@drawable/ic_5_of_diamonds"/>
+            android:background="@drawable/ic_5_of_diamonds"/>
 
         <ImageView
             android:id="@+id/imageView_card6"
             android:layout_width="60dp"
             android:layout_height="70dp"
             android:layout_marginTop="5dp"
-            android:src="@drawable/ic_6_of_diamonds"/>
+            android:background="@drawable/ic_6_of_diamonds"/>
 
 
 
