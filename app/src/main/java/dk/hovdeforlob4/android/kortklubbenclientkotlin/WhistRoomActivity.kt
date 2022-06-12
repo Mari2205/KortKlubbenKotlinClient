@@ -36,6 +36,10 @@ class WhistRoomActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
+        hubConnection = HubConnectionBuilder.create("http://10.0.2.2:5038/cardhub").build()
+        hubConnection.start()
+
+
         val playingCards = arrayOf(
             PlayingCard("ace of diamonds",      R.drawable.ic_ace_of_diamonds),
             PlayingCard("2 of diamonds",        R.drawable.ic_2_of_diamonds),
@@ -59,12 +63,11 @@ class WhistRoomActivity : AppCompatActivity() {
         }
 
 
-
-
-
         llCards = findViewById<LinearLayout>(R.id.ll_cards)
         llPlayedCards = findViewById<LinearLayout>(R.id.ll_cardPlayed)
+
         GiveCards(playingCardsArrLst)
+
         val imageViewCard1 = findViewById<ImageView>(R.id.imageView_card1)
         val imageViewCard2 = findViewById<ImageView>(R.id.imageView_card2)
         val imageViewCard3 = findViewById<ImageView>(R.id.imageView_card3)
@@ -76,9 +79,6 @@ class WhistRoomActivity : AppCompatActivity() {
         llPlayedCards.setOnDragListener(dragListener)
         llCards.setOnDragListener(dragListener)
 
-
-
-
         imageViewCard1.setOnLongClickListener(imageViewSetup)
         imageViewCard2.setOnLongClickListener(imageViewSetup)
         imageViewCard3.setOnLongClickListener(imageViewSetup)
@@ -86,58 +86,8 @@ class WhistRoomActivity : AppCompatActivity() {
         imageViewCard5.setOnLongClickListener(imageViewSetup)
         imageViewCard6.setOnLongClickListener(imageViewSetup)
 
-
-
-
-
-        hubConnection = HubConnectionBuilder.create("http://10.0.2.2:5038/cardhub").build()
-        hubConnection.start()
-
-
-//        imageViewCard1.setOnLongClickListener {
-//            val clipText = "this is our clipdata text"
-//            val item = ClipData.Item(clipText)
-//            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
-//            val data = ClipData(clipText, mimeTypes, item)
-//
-//            val dragShadowBuilder = View.DragShadowBuilder(it)
-//            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
-//
-//
-//            it.visibility = View.INVISIBLE
-//            true
-//        }
-//
-//
-//        imageViewCard2.setOnLongClickListener {
-//            val clipText = "this is our clipdata text"
-//            val item = ClipData.Item(clipText)
-//            val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
-//            val data = ClipData(clipText, mimeTypes, item)
-//
-//            val dragShadowBuilder = View.DragShadowBuilder(it)
-//            it.startDragAndDrop(data, dragShadowBuilder, it, 0)
-//
-//
-//            it.visibility = View.INVISIBLE
-//            true
-//        }
-
-
-
-//        binding.listviewCards.isClickable = true
-//        binding.listviewCards.adapter = CardsApapter(this, playingCardsArrLst)
-        //binding.recylerViewCards.adapter = CardsApapter(this, playingCardsArrLst)
-
-//        binding.listviewCards.setOnDragListener { view, dragEvent ->
-//            val drag = dragEvent
-//            val vie = view
-//           val t = ""
-//            true
-//        }
-
-
     }
+
 
     val dragListener = View.OnDragListener { view, dragEvent ->
         when (dragEvent.action) {
@@ -177,7 +127,6 @@ class WhistRoomActivity : AppCompatActivity() {
             }
             else -> false
         }
-
     }
 
 
@@ -195,17 +144,11 @@ class WhistRoomActivity : AppCompatActivity() {
         true
     }
 
-
+    //TODO: sends boradcast msg two times
+    /**
+     * this method find the name of whitch card played
+     */
     private fun GetPlayedCard(){
-
-//        val gl = llPlayedCards[0].id
-//        val hash = hashmapIds // key: imageview id | value: card id
-//        val ha = hashmapIds.keys
-
-//        for(key in ha){
-//            val testter = hash[key]
-//            val f =""
-//        }
 
         for (imageview in llPlayedCards){
             for (item in hashmapIds){
@@ -213,17 +156,12 @@ class WhistRoomActivity : AppCompatActivity() {
                     for (card in playingCardsArrLst){
                         if (item.value == card.imageId){
                             val name =  card.cardName
-                            val temp = ""
                             BoradcastCard(name)
                         }
                     }
                 }
             }
         }
-
-//        val lst = playingCardsArrLst[0].imageId
-
-        val temp = ""
     }
 
 
@@ -236,35 +174,32 @@ class WhistRoomActivity : AppCompatActivity() {
     }
 
 
+    /**
+     * this method should give cards recvide from the server
+     * but it gives a set off mock data whit randomized cards of the type haerts
+     */
     private fun GiveCards(cards:ArrayList<PlayingCard>){
         val imageViewCounts = llCards.childCount
-//        val lst:HashMap<Int, Int> = HashMap<Int, Int>()
 
         for (i in 0..imageViewCounts -1){
             val randomNo = (0..cards.size-1).random()
-//            val ffffffefwfef = cards[0]
             val cardId = cards[randomNo].imageId
             val imageview = llCards[i]
-//            llCards[i].setBackgroundResource(cardId)
-////            val fffgi = llCards[0].id
-//
-//            hashmapIds[llCards[i].id] = cardId
 
             imageview.setBackgroundResource(cardId)
             hashmapIds[imageview.id] = cardId
 
         }
-        val t =""
     }
 
+    //TODO: sends boradcast msg two times
+    /**
+     * this method boradcast out on the signal R web socket
+     */
     private fun BoradcastCard(cardName: String){
         try {
-
-            val f = hubConnection.connectionState
-            hubConnection.send("SendCard", "AC", cardName)
-
-
-//            val status = hubConnection.connectionState
+            //Note: need plain text permission in manifest
+            val status = hubConnection.connectionState
 
             if (hubConnection.connectionState == HubConnectionState.CONNECTED) {
                 hubConnection.send("SendCard", "Android Client", cardName)
